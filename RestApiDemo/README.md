@@ -1,0 +1,1 @@
+option pattern is in configs, appsettings, urlRepo, and UrlService

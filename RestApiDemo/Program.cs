@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using RestApiDemo.Configs;
+using RestApiDemo.Repos;
 using RestApiDemo.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,8 +12,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUrlService, UrlService>();
+builder.Services.AddScoped<IUrlRepo, UrlRepo>();
 
 builder.Services.Configure<UrlConfig>(builder.Configuration.GetSection("UrlConfig"));
+builder.Services.Configure<DbConfig>(builder.Configuration.GetSection("DBConfig"));
 
 var app = builder.Build();
 
