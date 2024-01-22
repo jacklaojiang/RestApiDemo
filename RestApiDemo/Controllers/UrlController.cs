@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using RestApiDemo.Entities;
 using RestApiDemo.Services;
 
 namespace RestApiDemo.Controllers
@@ -8,38 +9,66 @@ namespace RestApiDemo.Controllers
     public class UrlController : ControllerBase
     {
         private readonly ILogger<UrlController> _logger;
-        private readonly IUrlService _urlShortenService;
+        private readonly IUrlService _urlService;
 
         //Note: when doing Dependency injection for service class, make sure to use the interface , not the class in the parameter here, otherwise error 500 can occur
         public UrlController(IUrlService urlShortenService, ILogger<UrlController> logger)
         {
             _logger = logger;
-            this._urlShortenService = urlShortenService;
+            this._urlService = urlShortenService;
         }
 
-        [HttpGet("get")]
-        public ActionResult<string> GetUrl()
+        [HttpGet("GetAllUrls")]
+        public async Task<IEnumerable<UrlEntity>> GetUrl()
         {
             try
             {
-                return Ok(this._urlShortenService.GetUrl());
+                return await this._urlService.GetAllUrl();
             }
             catch (FormatException ex) 
             {
-                return BadRequest(ex.Message);
+                throw ;
             }
         }
 
-        [HttpPost("encrypt")]
+        [HttpPost("EncryptUrl")]
         public ActionResult<string> EncryptUrl([FromBody] string url)
         {
             try
             {
-                return Ok(this._urlShortenService.EncryptUrl(url));
+                return Ok(this._urlService.EncryptUrl(url));
             }
             catch (FormatException ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("AddUrl")]
+        public async Task AddUrl([FromBody] UrlEntity url)
+        {
+            try
+            {
+                await _urlService.AddUrl(url);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
+        [HttpPut("Update/{id}")]
+        public async Task UpdateUrl(int id, [FromBody] UrlEntity url)
+        {
+            // var result = GetWithId(id)
+            // if (result == null) return;
+
+            try
+            {
+                await _urlService.UpdateUrl(id, url);
+            }catch(Exception ex)
+            {
+                throw;
             }
         }
     }
