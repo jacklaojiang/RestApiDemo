@@ -33,3 +33,5 @@ RestApiDemo/bin/Debug/net6.0/RestApiDemo.runtimeconfig.json
 RestApiDemo/bin/Debug/net6.0/RestApiDemo.deps.json
 RestApiDemo/bin/Debug/net6.0/appsettings.json
 RestApiDemo/bin/Debug/net6.0/appsettings.Development.json
+/ApiDemoUnitTests/bin/Debug/net6.0
+/ApiDemoUnitTests/obj
